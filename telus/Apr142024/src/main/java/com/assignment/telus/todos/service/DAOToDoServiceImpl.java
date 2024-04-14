@@ -2,7 +2,6 @@ package com.assignment.telus.todos.service;
 
 import com.assignment.telus.todos.dto.ToDoDtoResponse;
 import com.assignment.telus.todos.dto.TodoDtoRequest;
-import jakarta.transaction.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -13,22 +12,24 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+
 @Service
 @RequiredArgsConstructor
 public class DAOToDoServiceImpl implements DAOToDoService {
 
   private final JdbcTemplate jdbcTemplate;
 
+  @Override
   public Optional<ToDoDtoResponse> create(TodoDtoRequest toDoDtoRequest) {
     KeyHolder keyHolder = new GeneratedKeyHolder();
     jdbcTemplate.update(connection -> {
       PreparedStatement ps = connection.prepareStatement(
           "insert into todos(description, completion) values ( ?, ? )",
           Statement.RETURN_GENERATED_KEYS);
-      ps.setString(1, toDoDtoRequest.description());
-      ps.setString(2, toDoDtoRequest.completion().name());
+      ps.setString(1, toDoDtoRequest.getDescription());
+      ps.setString(2, toDoDtoRequest.getCompletion().name());
 
       return ps;
     }, keyHolder);
@@ -38,30 +39,38 @@ public class DAOToDoServiceImpl implements DAOToDoService {
 
   }
 
+  @Override
   public Optional<ToDoDtoResponse> update(long id, TodoDtoRequest toDoDtoRequest) {
     jdbcTemplate.update("update todos set description = ?, completion = ? where id = ?",
-        toDoDtoRequest.description(), toDoDtoRequest.completion(), id);
+        toDoDtoRequest.getDescription(), toDoDtoRequest.getCompletion().name(), id);
 
     return getById(id);
   }
 
+
+  @Override
   public List<ToDoDtoResponse> getAll() {
-    return jdbcTemplate.query("select description, completion from todos where id = ?",
+    return jdbcTemplate.query("select id, description, completion from todos",
         new BeanPropertyRowMapper<>(ToDoDtoResponse.class));
   }
 
+  @Override
   public Optional<ToDoDtoResponse> getById(Long id) {
     List<ToDoDtoResponse> response = jdbcTemplate.query(
-        "select description, completion from todos where id = ?",
-        new BeanPropertyRowMapper<>(ToDoDtoResponse.class));
+        "select id, description, completion from todos where id = ?",
+        new BeanPropertyRowMapper<>(ToDoDtoResponse.class), id);
     return response.isEmpty() ? Optional.empty() : Optional.of(response.get(0));
   }
 
+
+  @Override
   public boolean deleteById(Long id) {
     return jdbcTemplate.update("delete from todos where id = ?", id) > 0;
   }
 
+  @Override
   public void clear() {
-    jdbcTemplate.update("truncate table todos");
+    // truncate is not applicable
+    jdbcTemplate.update("DELETE from todos");
   }
 }

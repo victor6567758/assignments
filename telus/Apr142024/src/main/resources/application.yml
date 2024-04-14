@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    username: viktor
+    password: Str0ngP
+    url: jdbc:sqlite:test-db.db
+
+server:
+  port: 8080
+

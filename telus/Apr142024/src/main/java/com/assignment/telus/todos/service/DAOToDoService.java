@@ -16,4 +16,6 @@ public interface DAOToDoService {
 
    boolean deleteById(Long id);
 
+   void clear();
+
 }

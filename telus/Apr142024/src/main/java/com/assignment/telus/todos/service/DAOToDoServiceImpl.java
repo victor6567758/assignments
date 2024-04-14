@@ -24,7 +24,8 @@ public class DAOToDoServiceImpl implements DAOToDoService {
   public Optional<ToDoDtoResponse> create(TodoDtoRequest toDoDtoRequest) {
     KeyHolder keyHolder = new GeneratedKeyHolder();
     jdbcTemplate.update(connection -> {
-      PreparedStatement ps = connection.prepareStatement("insert into todos(description, completion) values ( ?, ? )",
+      PreparedStatement ps = connection.prepareStatement(
+          "insert into todos(description, completion) values ( ?, ? )",
           Statement.RETURN_GENERATED_KEYS);
       ps.setString(1, toDoDtoRequest.description());
       ps.setString(2, toDoDtoRequest.completion().name());
@@ -50,12 +51,17 @@ public class DAOToDoServiceImpl implements DAOToDoService {
   }
 
   public Optional<ToDoDtoResponse> getById(Long id) {
-    List<ToDoDtoResponse> response = jdbcTemplate.query("select description, completion from todos where id = ?",
+    List<ToDoDtoResponse> response = jdbcTemplate.query(
+        "select description, completion from todos where id = ?",
         new BeanPropertyRowMapper<>(ToDoDtoResponse.class));
     return response.isEmpty() ? Optional.empty() : Optional.of(response.get(0));
   }
 
   public boolean deleteById(Long id) {
     return jdbcTemplate.update("delete from todos where id = ?", id) > 0;
+  }
+
+  public void clear() {
+    jdbcTemplate.update("truncate table todos");
   }
 }

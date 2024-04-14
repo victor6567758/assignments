@@ -14,26 +14,33 @@ public class TodoServiceImpl implements TodoService{
 
   @Override
   public ToDoDtoResponse findById(long id) {
-    return null;
+    return daoToDoService.getById(id).orElseThrow(() -> new IllegalArgumentException("Cannot find the row by id: " + id));
   }
 
   @Override
   public List<ToDoDtoResponse> findAll() {
-    return List.of();
+    return daoToDoService.getAll();
   }
 
   @Override
   public ToDoDtoResponse create(TodoDtoRequest todoDtoRequest) {
-    return null;
+    return daoToDoService.create(todoDtoRequest).orElseThrow(() -> new IllegalArgumentException("Cannot create the new row"));
   }
 
   @Override
   public ToDoDtoResponse update(long id, TodoDtoRequest todoDtoRequest) {
-    return null;
+    return daoToDoService.create(todoDtoRequest).orElseThrow(() -> new IllegalArgumentException("Cannot update the row by id: " + id));
   }
 
   @Override
   public void delete(long id) {
+    if (!daoToDoService.deleteById(id)) {
+      throw new IllegalArgumentException("Cannot delete the row by id: " + id);
+    }
+  }
 
+  @Override
+  public void clear() {
+    daoToDoService.clear();
   }
 }

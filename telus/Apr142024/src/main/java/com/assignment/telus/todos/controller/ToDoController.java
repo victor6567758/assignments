@@ -24,27 +24,27 @@ public class ToDoController {
 
   @GetMapping("/{id}")
   public ToDoDtoResponse findById(@PathVariable long id) {
-    return null;
+    return todoService.findById(id);
   }
 
   @GetMapping()
   public List<ToDoDtoResponse> findAll() {
-    return null;
+    return todoService.findAll();
   }
 
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
   public ToDoDtoResponse create(TodoDtoRequest todoDtoRequest) {
-
+    return todoService.create(todoDtoRequest);
   }
 
   @PatchMapping("/{id}")
   public ToDoDtoResponse update(@PathVariable long id, TodoDtoRequest todoDtoRequest) {
-
+    return todoService.update(id, todoDtoRequest);
   }
 
   @DeleteMapping("/{id}")
   public void delete(@PathVariable long id) {
-
+    todoService.delete(id);
   }
 }

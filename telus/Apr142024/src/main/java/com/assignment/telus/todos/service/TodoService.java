@@ -16,5 +16,6 @@ public interface TodoService {
 
   void delete(long id);
 
+  void clear();
 
 }

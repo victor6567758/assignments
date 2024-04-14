@@ -4,7 +4,11 @@ spring:
     username: viktor
     password: Str0ngP
     url: jdbc:sqlite:test-db.db
+    hikari:
+      auto-commit: false
 
-server:
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+
   port: 8080
 

@@ -1,7 +1,6 @@
 package com.assignment.telus.todos.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,10 +25,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.NumberUtils;
 import org.springframework.web.context.WebApplicationContext;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.is;
 
 @Sql({"classpath:sql-test-scripts/insert-data.sql"})
 @SpringBootTest(classes = TodoApplication.class)
@@ -54,7 +50,7 @@ class ToDoControllerTest {
   void givenNothing_whenReadRow_thenShouldGetAlreadyStoredRow() throws Exception {
     // given
 
-   // when
+    // when
     mockMvc.perform(get("/todos/1"))
         .andDo(print())
         // then
@@ -83,12 +79,13 @@ class ToDoControllerTest {
   @Test
   void givenInsertingRow_whenReadNewRow_thenShouldGetInsertedRow() throws Exception {
     // given
-    String content = mapper.writeValueAsString(new TodoDtoRequest("new_description", Completion.COMPLETED));
+    String content = mapper.writeValueAsString(
+        new TodoDtoRequest("new_description", Completion.COMPLETED));
     MvcResult result = mockMvc.perform(
-        post("/todos")
-            .content(content)
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON))
+            post("/todos")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isCreated())
         .andReturn();
@@ -108,9 +105,11 @@ class ToDoControllerTest {
   }
 
   @Test
-  void givenInsertingAndUpdatingRow_whenReadNewUpdatedRow_thenShouldRaise4xxNotSupported() throws Exception {
+  void givenInsertingAndUpdatingRow_whenReadNewUpdatedRow_thenShouldRaise4xxNotSupported()
+      throws Exception {
     // given
-    String content = mapper.writeValueAsString(new TodoDtoRequest("new_description2", Completion.NOT_COMPLETED));
+    String content = mapper.writeValueAsString(
+        new TodoDtoRequest("new_description2", Completion.NOT_COMPLETED));
     MvcResult result = mockMvc.perform(
             post("/todos")
                 .content(content)
@@ -125,7 +124,8 @@ class ToDoControllerTest {
     assertThat(response.getDescription()).isEqualTo("new_description2");
 
     // when
-    String contentUpdate = mapper.writeValueAsString(new TodoDtoRequest("new_description4", Completion.NOT_COMPLETED));
+    String contentUpdate = mapper.writeValueAsString(
+        new TodoDtoRequest("new_description4", Completion.NOT_COMPLETED));
     MvcResult resultUpdate = mockMvc.perform(
             patch("/todos")
                 .header("Allow", "POST, GET, PATCH")
@@ -135,7 +135,6 @@ class ToDoControllerTest {
         .andDo(print())
         .andExpect(status().is4xxClientError())
         .andReturn();
-
 
 
   }

@@ -10,7 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ToDoDtoResponse {
-    private int id;
-    private String description;
-    private Completion completion;
+
+  private int id;
+  private String description;
+  private Completion completion;
 }

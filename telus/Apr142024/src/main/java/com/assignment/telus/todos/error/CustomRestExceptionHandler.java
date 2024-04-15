@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class CustomRestExceptionHandler {
 
   @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<ErrorResponse> handleNullPointerExceptions(
+  public ResponseEntity<ErrorResponse> handleConstraintViolationException(
       ConstraintViolationException constraintViolationException) {
 
     HttpStatus status = HttpStatus.BAD_REQUEST;

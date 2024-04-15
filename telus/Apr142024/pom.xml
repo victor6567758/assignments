@@ -12,9 +12,9 @@
 
   <packaging>jar</packaging>
   <groupId>assignment.assignment</groupId>
-  <artifactId>todo</artifactId>
+  <artifactId>todos</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>cleaner</name>
+  <name>todos</name>
   <description>Demo project for Spring Boot</description>
   <properties>
     <java.version>17</java.version>
@@ -103,6 +103,27 @@
     </dependency>
 
     <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-contract-verifier</artifactId>
+      <version>4.1.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-contract-wiremock</artifactId>
+      <version>4.1.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-contract-stub-runner</artifactId>
+      <version>4.1.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>33.1.0-jre</version>
@@ -130,6 +151,17 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+        <configuration>
+          <baseClassForTests>com.assignment.telus.todos.controller.BaseContractTest</baseClassForTests>
+          <contractsDirectory>src/contractTest/resources/contracts</contractsDirectory>
+        </configuration>
+        <extensions>true</extensions>
+        <groupId>org.springframework.cloud</groupId>
+        <version>4.1.2</version>
       </plugin>
 
     </plugins>

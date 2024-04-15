@@ -1,13 +1,12 @@
 package com.assignment.telus.todos.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.assignment.telus.todos.dto.Completion;
 import com.assignment.telus.todos.dto.ToDoDtoResponse;
 import com.assignment.telus.todos.dto.TodoDtoRequest;
 import java.util.List;
-import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -16,12 +15,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 @ActiveProfiles("test")
 @SpringBootTest
-
 class TodoServiceTest {
+
   @Autowired
   private TodoService todoService;
 
@@ -79,7 +80,6 @@ class TodoServiceTest {
         .map(n -> new ImmutablePair<>(n.getDescription(), n.getCompletion()))
         .sorted().collect(Collectors.toList());
 
-
     List<Pair<String, Completion>> expectedPairs = Stream.of(response1, response2, response3)
         .map(n -> new ImmutablePair<>(n.getDescription(), n.getCompletion()))
         .sorted().collect(Collectors.toList());
@@ -112,7 +112,7 @@ class TodoServiceTest {
   }
 
   @Test
-  void givenInsertSeveralRows_whenFindRowById_thenShouldGetvalidRowRow() {
+  void givenInsertSeveralRows_whenFindRowById_thenShouldGetValidRowRow() {
     // given
     ToDoDtoResponse response1 =
         todoService.create(new TodoDtoRequest("description1", Completion.NOT_COMPLETED));
@@ -132,4 +132,5 @@ class TodoServiceTest {
     assertThat(toUpdate.getCompletion()).isEqualTo(response2.getCompletion());
 
   }
+
 }

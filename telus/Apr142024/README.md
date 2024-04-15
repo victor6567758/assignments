@@ -23,4 +23,6 @@ rollback after each test
 Ideally "Contract First" approach + OpenAPI. However, it is hard to redesign existing systems.
 And Spring Cloud Contract tests are still reduced technically to MockMVC. Some BDDs (Cucumber, Spock)
 are the same.
+* Jacoco plugin is used
+* Custom REST API errors: ```telus/Apr142024/src/main/java/com/assignment/telus/todos/error/CustomRestExceptionHandler.java```
 

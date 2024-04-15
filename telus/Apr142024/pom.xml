@@ -88,7 +88,6 @@
     </dependency>
 
 
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -183,6 +182,28 @@
     <finalName>app</finalName>
 
     <plugins>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -191,7 +212,8 @@
       <plugin>
         <artifactId>spring-cloud-contract-maven-plugin</artifactId>
         <configuration>
-          <baseClassForTests>com.assignment.telus.todos.controller.BaseContractTest</baseClassForTests>
+          <baseClassForTests>com.assignment.telus.todos.controller.BaseContractTest
+          </baseClassForTests>
           <contractsDirectory>src/contractTest/resources/contracts</contractsDirectory>
         </configuration>
         <extensions>true</extensions>
@@ -222,12 +244,14 @@
               <outputTargets>
                 <outputTarget>
                   <type>java</type>
-                  <outputDirectory>${project.build.directory}/generated-sources/protobuf/java</outputDirectory>
+                  <outputDirectory>${project.build.directory}/generated-sources/protobuf/java
+                  </outputDirectory>
                 </outputTarget>
                 <outputTarget>
                   <type>grpc-java</type>
                   <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.57.2</pluginArtifact>
-                  <outputDirectory>${project.build.directory}/generated-sources/protobuf/grpc-java</outputDirectory>
+                  <outputDirectory>${project.build.directory}/generated-sources/protobuf/grpc-java
+                  </outputDirectory>
                 </outputTarget>
               </outputTargets>
             </configuration>

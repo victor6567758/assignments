@@ -1,5 +1,6 @@
 package com.assignment.telus.todos.service;
 
+import com.assignment.telus.todos.dto.Completion;
 import com.assignment.telus.todos.dto.ToDoDtoResponse;
 import com.assignment.telus.todos.dto.TodoDtoRequest;
 import java.sql.PreparedStatement;
@@ -7,12 +8,10 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -29,7 +28,7 @@ public class DAOToDoServiceImpl implements DAOToDoService {
           "insert into todos(description, completion) values ( ?, ? )",
           Statement.RETURN_GENERATED_KEYS);
       ps.setString(1, toDoDtoRequest.getDescription());
-      ps.setString(2, toDoDtoRequest.getCompletion().name());
+      ps.setString(2, toDoDtoRequest.getCompletion().getCShort());
 
       return ps;
     }, keyHolder);
@@ -42,7 +41,7 @@ public class DAOToDoServiceImpl implements DAOToDoService {
   @Override
   public Optional<ToDoDtoResponse> update(long id, TodoDtoRequest toDoDtoRequest) {
     jdbcTemplate.update("update todos set description = ?, completion = ? where id = ?",
-        toDoDtoRequest.getDescription(), toDoDtoRequest.getCompletion().name(), id);
+        toDoDtoRequest.getDescription(), toDoDtoRequest.getCompletion().getCShort(), id);
 
     return getById(id);
   }
@@ -51,14 +50,16 @@ public class DAOToDoServiceImpl implements DAOToDoService {
   @Override
   public List<ToDoDtoResponse> getAll() {
     return jdbcTemplate.query("select id, description, completion from todos",
-        new BeanPropertyRowMapper<>(ToDoDtoResponse.class));
+        (rs, rowNum) -> new ToDoDtoResponse(rs.getLong(1),
+            rs.getString(2), Completion.fromCShort(rs.getString(3))));
   }
 
   @Override
   public Optional<ToDoDtoResponse> getById(Long id) {
     List<ToDoDtoResponse> response = jdbcTemplate.query(
         "select id, description, completion from todos where id = ?",
-        new BeanPropertyRowMapper<>(ToDoDtoResponse.class), id);
+        (rs, rowNum) -> new ToDoDtoResponse(rs.getLong(1),
+            rs.getString(2), Completion.fromCShort(rs.getString(3))), id);
     return response.isEmpty() ? Optional.empty() : Optional.of(response.get(0));
   }
 

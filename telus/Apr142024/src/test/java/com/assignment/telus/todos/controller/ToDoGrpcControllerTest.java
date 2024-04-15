@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 @Sql({"classpath:sql-test-scripts/insert-data.sql"})
-@SpringBootTest(classes = TodoApplication.class, properties = {
+@SpringBootTest(properties = {
     "grpc.server.inProcessName=test",
     "grpc.server.port=-1",
     "grpc.client.inProcess.address=in-process:test"
@@ -24,14 +24,14 @@ import org.springframework.test.context.jdbc.Sql;
 @DirtiesContext
 class ToDoGrpcControllerTest {
 
-  @GrpcClient("inProcess")
-  ToDoServiceGrpc.ToDoServiceBlockingStub service;
+  @GrpcClient("test")
+  private ToDoServiceGrpc.ToDoServiceBlockingStub service;
 
 
   @Test
   void givenNothing_whenReadRow_thenShouldGetAlreadyStoredRow() {
     ToDoResponseList toDoResponseList = service.findAll(Dummy.newBuilder().build());
-    assertThat(toDoResponseList).isNotNull();
+    assertThat(toDoResponseList.getListList()).hasSize(4);
 
   }
 

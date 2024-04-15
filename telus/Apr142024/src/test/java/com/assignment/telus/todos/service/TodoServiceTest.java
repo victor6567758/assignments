@@ -94,16 +94,42 @@ class TodoServiceTest {
     // given
     ToDoDtoResponse response1 =
         todoService.create(new TodoDtoRequest("description1", Completion.NOT_COMPLETED));
+
     ToDoDtoResponse response2 =
         todoService.create(new TodoDtoRequest("description2", Completion.COMPLETED));
+
+    ToDoDtoResponse response3 =
+        todoService.create(new TodoDtoRequest("description3", Completion.NOT_COMPLETED));
+
+    // when
+    ToDoDtoResponse toUpdate = todoService.update(response2.getId(),
+        new TodoDtoRequest("description2_updated", Completion.NOT_COMPLETED));
+
+    // then
+    assertThat(toUpdate.getDescription()).isEqualTo("description2_updated");
+    assertThat(toUpdate.getCompletion()).isEqualTo(Completion.NOT_COMPLETED);
+
+  }
+
+  @Test
+  void givenInsertSeveralRows_whenFindRowById_thenShouldGetvalidRowRow() {
+    // given
+    ToDoDtoResponse response1 =
+        todoService.create(new TodoDtoRequest("description1", Completion.NOT_COMPLETED));
+
+    ToDoDtoResponse response2 =
+        todoService.create(new TodoDtoRequest("description2", Completion.COMPLETED));
+
     ToDoDtoResponse response3 =
         todoService.create(new TodoDtoRequest("description3", Completion.NOT_COMPLETED));
 
     // when
     ToDoDtoResponse toUpdate = todoService.findById(response2.getId());
-    assertThat(response2.getId()).isGreaterThan(0);
-    todoService.update(response2.getId(), new TodoDtoRequest("description2_updated",
-        Completion.NOT_COMPLETED));
+
+    // then
+    assertThat(toUpdate.getId()).isEqualTo(response2.getId());
+    assertThat(toUpdate.getDescription()).isEqualTo(response2.getDescription());
+    assertThat(toUpdate.getCompletion()).isEqualTo(response2.getCompletion());
 
   }
 }

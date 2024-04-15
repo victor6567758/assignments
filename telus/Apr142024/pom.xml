@@ -9,6 +9,8 @@
     <version>3.2.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
+
+  <packaging>jar</packaging>
   <groupId>assignment.assignment</groupId>
   <artifactId>todo</artifactId>
   <version>0.0.1-SNAPSHOT</version>
@@ -122,12 +124,13 @@
   </dependencies>
 
   <build>
+    <finalName>app</finalName>
+
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
-
 
     </plugins>
   </build>

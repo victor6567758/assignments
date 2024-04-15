@@ -3,9 +3,12 @@ package com.assignment.telus.todos.controller;
 import com.assignment.telus.todos.dto.ToDoDtoResponse;
 import com.assignment.telus.todos.dto.TodoDtoRequest;
 import com.assignment.telus.todos.service.TodoService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,12 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/todos")
 @RequiredArgsConstructor
+@Validated
 public class ToDoController {
 
   private final TodoService todoService;
 
   @GetMapping("/{id}")
-  public ToDoDtoResponse findById(@PathVariable long id) {
+  public ToDoDtoResponse findById(@Valid @PathVariable @Min(0) long id) {
     return todoService.findById(id);
   }
 
@@ -35,12 +39,12 @@ public class ToDoController {
 
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
-  public ToDoDtoResponse create(@RequestBody TodoDtoRequest todoDtoRequest) {
+  public ToDoDtoResponse create(@Valid @RequestBody TodoDtoRequest todoDtoRequest) {
     return todoService.create(todoDtoRequest);
   }
 
   @PatchMapping("/{id}")
-  public ToDoDtoResponse update(@PathVariable long id, @RequestBody TodoDtoRequest todoDtoRequest) {
+  public ToDoDtoResponse update(@PathVariable long id, @Valid @RequestBody TodoDtoRequest todoDtoRequest) {
     return todoService.update(id, todoDtoRequest);
   }
 

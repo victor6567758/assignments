@@ -1,40 +1,27 @@
-version: "3.8"
+version: "3"
+
 services:
-  db:
-    image: postgres
-    container_name: local_pgdb
-    restart: always
+  todos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todos
     ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: viktor
-      POSTGRES_PASSWORD: Str0ngP
-      POSTGRES_DB: test_db
-    networks:
-      - postgres
-    volumes:
-      - postgres:/data/postgres
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_container
-    restart: always
-    ports:
-      - "8888:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: viktor@domain-name.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      - "8080:8080"
+
+  testingapp:
+    container_name: testing_app
+    image: alpine
+    # perform health check and exit
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo "Installing curl"
+        apk update
+        apk upgrade
+        apk add curl
+        apk add bash
+        /bin/bash -c 'for try in {1..5}; do echo "checking"; if [ "$$(curl --connect-timeout 2 -s -o /dev/null -w ''%{http_code}'' http://todos:8080/actuator/health)" -eq "200" ]; then exit 0; else echo "...";  fi; sleep 5; done; exit 1;'
     depends_on:
-      - db
-    networks:
-      - postgres
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-
-networks:
-  postgres:
-    driver: bridge
-
-volumes:
-  postgres:
-  pgadmin:
+      - todos

@@ -2,7 +2,6 @@ package com.assignment.telus.todos.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
@@ -30,7 +29,7 @@ public class ErrorResponse {
 
   public ErrorResponse(
       HttpStatus httpStatus,
-      String message ) {
+      String message) {
     this();
 
     this.code = httpStatus.value();

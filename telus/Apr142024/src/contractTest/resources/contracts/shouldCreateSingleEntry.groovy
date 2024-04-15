@@ -12,19 +12,20 @@ import org.springframework.cloud.contract.spec.Contract
                     contentType(applicationJson())
                 }
                 body '''
-                [
-                    {
-                        "description": "foo",
-                        "completion": "COMPLETED"
-                    }
-                ]
+                {
+                    "description": "foo",
+                    "completion": "COMPLETED"
+                }
                 '''
             }
             response {
+                headers {
+                    contentType(applicationJson())
+                }
                 status OK()
                 body '''
                 {
-                    "id": 1,
+                    "id": $(c(156), p(positiveInt())),
                     "description": "foo",
                     "completion": "COMPLETED"
                 }

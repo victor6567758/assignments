@@ -1,9 +1,11 @@
 package com.assignment.telus.todos.controller;
 
+
 import com.assignment.telus.todos.TodoApplication;
 import com.assignment.telus.todos.service.TodoService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -32,5 +34,10 @@ public class BaseContractTest {
 
     todoService.clear();
 
+  }
+
+  // just for testing purposes
+  @Test
+  void dummy() {
   }
 }

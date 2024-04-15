@@ -11,7 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ToDoDtoResponse {
 
-  private int id;
+  private long id;
+
   private String description;
+
   private Completion completion;
 }

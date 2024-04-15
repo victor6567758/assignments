@@ -16,9 +16,13 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>todos</name>
   <description>Demo project for Spring Boot</description>
+
+
   <properties>
     <java.version>17</java.version>
   </properties>
+
+
   <dependencies>
 
     <dependency>
@@ -30,11 +34,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-
-    <!--    <dependency>-->
-    <!--      <groupId>org.springframework.boot</groupId>-->
-    <!--      <artifactId>spring-boot-starter-data-jdbc</artifactId>-->
-    <!--    </dependency>-->
 
     <dependency>
       <groupId>org.hibernate.orm</groupId>
@@ -142,12 +141,69 @@
       <version>3.25.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>net.devh</groupId>
+      <artifactId>grpc-server-spring-boot-starter</artifactId>
+      <version>2.15.0.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.devh</groupId>
+      <artifactId>grpc-client-spring-boot-starter</artifactId>
+      <version>2.15.0.RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.grpc</groupId>
+      <artifactId>grpc-testing</artifactId>
+      <version>1.63.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>3.2.4</version>
+      <scope>test</scope>
+    </dependency>
+
+
   </dependencies>
 
   <build>
     <finalName>app</finalName>
 
     <plugins>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -156,13 +212,73 @@
       <plugin>
         <artifactId>spring-cloud-contract-maven-plugin</artifactId>
         <configuration>
-          <baseClassForTests>com.assignment.telus.todos.controller.BaseContractTest</baseClassForTests>
+          <baseClassForTests>com.assignment.telus.todos.controller.BaseContractTest
+          </baseClassForTests>
           <contractsDirectory>src/contractTest/resources/contracts</contractsDirectory>
         </configuration>
         <extensions>true</extensions>
         <groupId>org.springframework.cloud</groupId>
         <version>4.1.2</version>
       </plugin>
+
+      <plugin>
+        <groupId>com.github.os72</groupId>
+        <artifactId>protoc-jar-maven-plugin</artifactId>
+        <version>3.11.4</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <addProtoSources>all</addProtoSources>
+              <includeMavenTypes>direct</includeMavenTypes>
+              <outputDirectory>src/main/generated</outputDirectory>
+              <inputDirectories>
+                <include>src/main/proto</include>
+              </inputDirectories>
+              <includeDirectories>
+                <include>src/main/proto-imports</include>
+              </includeDirectories>
+              <outputTargets>
+                <outputTarget>
+                  <type>java</type>
+                  <outputDirectory>${project.build.directory}/generated-sources/protobuf/java
+                  </outputDirectory>
+                </outputTarget>
+                <outputTarget>
+                  <type>grpc-java</type>
+                  <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.57.2</pluginArtifact>
+                  <outputDirectory>${project.build.directory}/generated-sources/protobuf/grpc-java
+                  </outputDirectory>
+                </outputTarget>
+              </outputTargets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/protobuf-java</source>
+                <source>${project.build.directory}/generated-sources/protobuf-grpc-java</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
 
     </plugins>
   </build>

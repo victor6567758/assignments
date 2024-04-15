@@ -35,7 +35,7 @@ public class TodoServiceImpl implements TodoService {
 
   @Override
   public ToDoDtoResponse update(long id, TodoDtoRequest todoDtoRequest) {
-    return daoToDoService.create(todoDtoRequest)
+    return daoToDoService.update(id, todoDtoRequest)
         .orElseThrow(() -> new IllegalArgumentException("Cannot update the row by id: " + id));
   }
 

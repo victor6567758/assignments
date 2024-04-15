@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: todos
   datasource:
     driver-class-name: org.sqlite.JDBC
     username: viktor
@@ -12,4 +14,11 @@ spring:
     generate-ddl: false
 
   port: 8080
+
+grpc:
+  server:
+    port: 9090
+
+#management.endpoints.web.exposure.include: metrics
+management.endpoint.metrics.enabled: true
 

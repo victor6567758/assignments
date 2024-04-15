@@ -4,9 +4,9 @@ import com.assignment.telus.todos.dto.ToDoDtoResponse;
 import com.assignment.telus.todos.dto.TodoDtoRequest;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.List;
-import org.springframework.web.bind.annotation.PathVariable;
 
 public interface TodoService {
+
   ToDoDtoResponse findById(long id);
 
   List<ToDoDtoResponse> findAll();

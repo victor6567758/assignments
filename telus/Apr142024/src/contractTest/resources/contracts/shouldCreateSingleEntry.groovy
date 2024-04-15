@@ -12,15 +12,16 @@ import org.springframework.cloud.contract.spec.Contract
                     contentType(applicationJson())
                 }
                 body '''
-                [
-                    {
-                        "description": "foo",
-                        "completion": "COMPLETED"
-                    }
-                ]
+                {
+                    "description": "foo",
+                    "completion": "COMPLETED"
+                }
                 '''
             }
             response {
+                headers {
+                    contentType(applicationJson())
+                }
                 status OK()
                 body '''
                 {

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/todos")
 @RequiredArgsConstructor
 @Validated
-public class ToDoController {
+public class ToDoRestController {
 
   private final TodoService todoService;
 

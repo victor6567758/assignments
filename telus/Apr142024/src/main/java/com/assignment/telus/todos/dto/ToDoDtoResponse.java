@@ -12,6 +12,8 @@ import lombok.Setter;
 public class ToDoDtoResponse {
 
   private int id;
+
   private String description;
+
   private Completion completion;
 }

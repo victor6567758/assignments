@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package model;
+
+option java_multiple_files = true;
+option java_package = "com.assignment.telus.todos.model";
+option java_outer_classname = "ToDosProto";
+
+message Dummy {}
+
+enum ToDoCompletion {
+  COMPLETED = 0;
+  NOT_COMPLETED = 1;
+}
+
+message TodoCreateRequest {
+  string description = 1;
+  ToDoCompletion completion = 2;
+}
+
+message TodoUpdateRequest {
+  int64 id = 1;
+  TodoCreateRequest todoCreateRequest = 2;
+}
+
+message TodoFindRequest {
+  int64 id = 1;
+}
+
+message TodoDeleteRequest {
+  int64 id = 1;
+}
+
+message ToDoResponseList  {
+  repeated ToDoResponse list = 1;
+}
+
+message ToDoResponse  {
+  int32 id = 1;
+  string description = 2;
+  ToDoCompletion completion = 3;
+}
+
+service ToDoService {
+  rpc findById(TodoFindRequest) returns (ToDoResponse) {
+
+  };
+  rpc findAll(Dummy) returns (ToDoResponseList) {
+
+  };
+  rpc create(TodoCreateRequest) returns (ToDoResponse) {
+
+  };
+  rpc update(TodoUpdateRequest) returns (ToDoResponse) {
+
+  };
+  rpc delete(TodoDeleteRequest) returns (Dummy) {
+
+  };
+  rpc clear(Dummy) returns (Dummy) {
+
+  };
+}

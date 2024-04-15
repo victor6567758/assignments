@@ -34,9 +34,13 @@ class ToDoControllerTest {
   }
 
   @Test
-  void vanillaReadRowTest() throws Exception {
+  void givenNothing_whenReadRow_thenShouldGetAlreadyStoredRow() throws Exception {
+    // given
+
+   // when
     mockMvc.perform(get("/todos/1"))
         .andDo(print())
+        // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(1)))
         .andExpect(jsonPath("$.description", is("description1")))

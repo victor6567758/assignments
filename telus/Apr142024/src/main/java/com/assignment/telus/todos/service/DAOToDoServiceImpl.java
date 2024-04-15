@@ -72,6 +72,6 @@ public class DAOToDoServiceImpl implements DAOToDoService {
   @Override
   public void clear() {
     // truncate is not applicable
-    jdbcTemplate.update("DELETE from todos");
+    jdbcTemplate.update("delete from todos");
   }
 }

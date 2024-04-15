@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class ToDoRestController {
   private final TodoService todoService;
 
   @GetMapping("/{id}")
-  public ToDoDtoResponse findById(@Valid @PathVariable @Min(0) long id) {
+  public ToDoDtoResponse findById(@Valid @PathVariable("id") @Min(0) long id) {
     return todoService.findById(id);
   }
 
@@ -43,8 +44,11 @@ public class ToDoRestController {
     return todoService.create(todoDtoRequest);
   }
 
-  @PatchMapping("/{id}")
-  public ToDoDtoResponse update(@PathVariable long id, @Valid @RequestBody TodoDtoRequest todoDtoRequest) {
+  @RequestMapping(value = "/{id}",
+      produces = "application/json",
+      method= RequestMethod.PATCH)
+  //@PatchMapping(path = "/{id}", consumes = "application/json")
+  public ToDoDtoResponse update(@PathVariable("id") long id, @Valid @RequestBody TodoDtoRequest todoDtoRequest) {
     return todoService.update(id, todoDtoRequest);
   }
 

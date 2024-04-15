@@ -25,7 +25,7 @@ import org.springframework.cloud.contract.spec.Contract
                 status OK()
                 body '''
                 {
-                    "id": 1,
+                    "id": $(c(156), p(positiveInt())),
                     "description": "foo",
                     "completion": "COMPLETED"
                 }

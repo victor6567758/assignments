@@ -1,7 +1,5 @@
 package com.assignment.telus.todos.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.assignment.telus.todos.TodoApplication;
 import com.assignment.telus.todos.service.TodoService;
@@ -38,6 +36,7 @@ public class BaseContractTest {
 
   }
 
+  // just for testing purposes
   @Test
   void dummy() {
   }

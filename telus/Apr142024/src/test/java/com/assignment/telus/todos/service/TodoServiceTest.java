@@ -15,9 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -63,6 +61,21 @@ class TodoServiceTest {
   }
 
   @Test
+  void givenUpdateInvalidRow_whenAccessRow_thenShouldGetInvalidRowException() {
+    // given
+    ToDoDtoResponse response =
+        todoService.create(new TodoDtoRequest("description2345", Completion.NOT_COMPLETED));
+
+    todoService.delete(response.getId());
+
+    // when
+    // then
+    assertThrows(IllegalArgumentException.class, () -> {
+      todoService.update(response.getId(), new TodoDtoRequest("des2", Completion.NOT_COMPLETED));
+    });
+  }
+
+  @Test
   @SuppressWarnings("unchecked")
   void givenInsertSeveralRows_whenQueryRows_thenShouldGetRows() {
     // given
@@ -90,10 +103,24 @@ class TodoServiceTest {
   }
 
   @Test
+  void giveClearRows_whenGetAllRows_thenShouldGetEmptySet() {
+    // given
+    ToDoDtoResponse response1 =
+        todoService.create(new TodoDtoRequest("description1", Completion.NOT_COMPLETED));
+    assertThat(response1.getDescription()).isEqualTo("description1");
+
+    todoService.clear();
+
+    List<ToDoDtoResponse> result = todoService.findAll();
+    assertThat(result).isEmpty();
+  }
+
+  @Test
   void givenInsertSeveralRows_whenUpdateRow_thenShouldGetUpdatedRow() {
     // given
     ToDoDtoResponse response1 =
         todoService.create(new TodoDtoRequest("description1", Completion.NOT_COMPLETED));
+    assertThat(response1.getDescription()).isEqualTo("description1");
 
     ToDoDtoResponse response2 =
         todoService.create(new TodoDtoRequest("description2", Completion.COMPLETED));

@@ -31,14 +31,6 @@ import org.springframework.test.context.jdbc.Sql;
 @ActiveProfiles("test")
 public class ToDoControllerTestIT {
 
-  @Getter
-  @Setter
-  @NoArgsConstructor
-  private static class TodoDtoRequestList {
-
-    private List<TodoDtoRequest> requests;
-  }
-
   @LocalServerPort
   private int localServerPort;
 

@@ -22,14 +22,12 @@ import org.springframework.cloud.contract.spec.Contract
                 headers {
                     contentType(applicationJson())
                 }
-                status OK()
-                body '''
-                {
+                status CREATED()
+                body (
                     "id": $(c(156), p(positiveInt())),
                     "description": "foo",
                     "completion": "COMPLETED"
-                }
-                '''
+                )
             }
         },
 

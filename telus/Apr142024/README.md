@@ -7,9 +7,21 @@
 
 
 ## Dockerization
-* Dockerfile - build and run
+* Dockerfile - build
+
+```docker build --progress=plain --no-cache .``` or
+
+```docker build --no-cache -t todos:latest .```
+
+```docker run -d --restart=always -p 8080:8080 -p 9090:9090 todos:latest --rm```
+* Run: 
 * docker-compose.yml - Run the above Dockerfile + healthcheck (with actuator). 
 Makes sure the service is up and running.
+
+```docker-compose up --build --force-recreate``` or 
+
+```docker-compose up -d```
+* To stop: ```docker-compose stop|down```
 
 ## Design considerations
 * GRPC works through services layer. 

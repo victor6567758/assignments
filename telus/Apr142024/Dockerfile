@@ -1,10 +1,11 @@
 FROM openjdk:17-oracle as build
-MAINTAINER victorofff@gmail.co
+MAINTAINER victorofff@gmail.com
 
 COPY . /usr/src/app/
 WORKDIR /usr/src/app/
 RUN ./mvnw clean install
 
+# in theory there should be lightweight image to run only
 FROM openjdk:17-alpine
 
 RUN adduser --no-create-home -u 1000 -D appuser

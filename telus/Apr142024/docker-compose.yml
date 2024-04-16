@@ -8,6 +8,7 @@ services:
     container_name: todos
     ports:
       - "8080:8080"
+      - "9090:9090"
 
   testingapp:
     container_name: testing_app
@@ -22,6 +23,6 @@ services:
         apk upgrade
         apk add curl
         apk add bash
-        /bin/bash -c 'for try in {1..5}; do echo "checking"; if [ "$$(curl --connect-timeout 2 -s -o /dev/null -w ''%{http_code}'' http://todos:8080/actuator/health)" -eq "200" ]; then exit 0; else echo "...";  fi; sleep 5; done; exit 1;'
+        /bin/bash -c 'for try in {1..5}; do echo "rest checking"; if [ "$$(curl --connect-timeout 2 -s -o /dev/null -w ''%{http_code}'' http://todos:8080/actuator/health)" -eq "200" ]; then exit 0; else echo "...";  fi; sleep 5; done; exit 1;'
     depends_on:
       - todos

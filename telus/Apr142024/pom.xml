@@ -7,7 +7,7 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.2.2</version>
-    <relativePath/> <!-- lookup parent from repository -->
+    <relativePath/>
   </parent>
 
   <packaging>jar</packaging>
@@ -15,8 +15,7 @@
   <artifactId>todos</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>todos</name>
-  <description>Demo project for Spring Boot</description>
-
+  <description>ToDos for Telus</description>
 
   <properties>
     <java.version>17</java.version>
